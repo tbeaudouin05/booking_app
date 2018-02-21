@@ -1,0 +1,11 @@
+SQL/db_access.yaml
+install/R-3.4.2-win.exe
+install/RStudio-1.1.383.exe
+2_input/archive/
+3_output/
+4_temp_input/
+2_input/input_conditional_format/archive/
+2_input/item_price_commission_format/archive/
+2_input/ngs_map/archive/
+.Rhistory
+
