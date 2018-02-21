@@ -8,4 +8,7 @@ install/RStudio-1.1.383.exe
 2_input/item_price_commission_format/archive/
 2_input/ngs_map/archive/
 .Rhistory
-
+*.ini
+*.Rhistory
+*archive/
+*.exe
