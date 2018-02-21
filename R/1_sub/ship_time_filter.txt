@@ -1,0 +1,1 @@
+AND (YEAR(shipped_at_t.shipped_at) BETWEEN 2018 AND 2018 ) AND (MONTH(shipped_at_t.shipped_at) BETWEEN 1 AND 1 ) AND (DAY(shipped_at_t.shipped_at) BETWEEN 1 AND 1 )

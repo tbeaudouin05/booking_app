@@ -1,0 +1,19 @@
+
+install.packages('versions')
+library(versions)
+
+install.dates('XLConnectJars', '2018-01-01')
+install.versions(c('XLConnect'), versions = c('0.2-13'))
+
+install.dates('openxlsx', '2018-02-07')
+install.dates('RODBC', '2018-02-07')
+install.dates('class', '2018-02-21')
+install.dates('arules', '2018-02-07')
+install.dates('data.table', '2018-02-07')
+install.dates('tidyverse', '2018-02-07')
+install.dates('readr', '2018-02-07')
+install.dates('tcltk2', '2018-02-07')
+install.dates('excel.link', '2018-02-07')
+install.dates('reshape', '2018-02-07')
+install.dates('svMisc', '2018-02-07')
+install.dates('RMySQL', '2018-02-07')
