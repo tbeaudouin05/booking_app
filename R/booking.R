@@ -66,6 +66,7 @@ source('R/2_function/2_item_price_commission/ledger_map_check.R')
 source('R/2_function/2_item_price_commission/update_input_cond_format.R')
 source('R/2_function/2_item_price_commission/prepare_missing_field_df.R')
 source('R/2_function/2_item_price_commission/check_all_format.R')
+source('R/2_function/2_item_price_commission/format_final_pivot.R')
 
 Sys.sleep(0.5)
 
@@ -91,10 +92,6 @@ loop <- 1
 
 # check at very beginning there are no missing ledgers
 ledger_map_check_f(sc_transaction$oms_id_sales_order_item)
-
-# check at the very beginning if there are missing benef_code
-# get unique seller names
-seller_name <- data.frame(unique(sc_transaction$seller_name))
 
 # check all necessary benef_code are here
 temp <- benef_code_f(sc_transaction,'sc_transaction',0)
@@ -131,8 +128,9 @@ save_transaction_type_f(transaction_type_df_list,transaction_type_df_list_w_comm
 # III_prepare_oms_ship_and_oms_rcc_data -----------------------------------------------------------
 
 # get oms_ship and oms_rcc data from OMS database based on filtering found in sc_transaction item_price_credit and item_price
-oms_df_list <- run_oms_query_f(transaction_type_df_list$`Item Price Credit`$oms_id_sales_order_item
-                ,transaction_type_df_list$`Item Price`$oms_id_sales_order_item)
+oms_df_list <- run_oms_query_f(
+                ipc_ship_oms_id_soi = transaction_type_df_list$`Item Price Credit`$oms_id_sales_order_item
+                ,ipt_rcc_oms_id_soi = transaction_type_df_list$`Item Price`$oms_id_sales_order_item)
 
 oms_ship <- oms_df_list[[1]]
 oms_rcc <- oms_df_list[[2]]
@@ -155,7 +153,7 @@ ipc_final_pivot <- pivot_ledger_seller_voucher_f(ipc_final)
 
 
 # get and run format_final_pivot_f function
-source('R/2_function/2_item_price_commission/format_final_pivot.R')
+
 ipc_pivot_formatted <- format_final_pivot_f(ipc_final_pivot,'ipc', is_final = F)
 
 
@@ -192,6 +190,7 @@ if (is.data.frame(ipt_pivot_formatted)) {
   commission_final_pivot <- commission_f(transaction_type_df_list$Commission
                                          ,transaction_type_df_list$`Commission Credit`)
   
+  # good up to here except small discrepancies pby because ledger mismatch
   # get and run map_item_price_to_commission_f function
   source('R/1_sub/map_item_price_to_commission.R')
   ipc_ipt_commission_final_pivot <- map_item_price_to_commission_f(ipc_pivot_formatted

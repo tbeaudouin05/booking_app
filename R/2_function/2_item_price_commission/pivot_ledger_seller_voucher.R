@@ -21,7 +21,7 @@ pivot_ledger_seller_voucher_f <- function(df_no_missing_ledger) {
   # group voucher by Seller Name
   voucher_by_seller <- data.table(df_no_missing_ledger)
   voucher_by_seller <- voucher_by_seller[, .(sum(voucher)), by=list(seller_name)]
-  voucher_by_seller <- data.table(voucher_by_seller)
+  voucher_by_seller <- data.frame(voucher_by_seller)
   names(voucher_by_seller)[2] <- '62002'
   
   # merge df_pivoted with voucher_by_seller on Seller Name

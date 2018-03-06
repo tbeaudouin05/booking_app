@@ -105,7 +105,7 @@ if (is.data.frame(ipc_no_missing_shipment_provider)) {
         archive_f('4_temp_input',temp_input[i]) 
       }}
     
-    # only process if check was successful ie k = 0
+    # only process if check was successful ie k = 1
     if (k == 1) {
   
 
@@ -114,10 +114,6 @@ if (is.data.frame(ipc_no_missing_shipment_provider)) {
   # add voucher to ipc_no_missing_item_status
   ipc_no_missing_item_status$voucher <- ipc_no_missing_item_status$transaction_value - ipc_no_missing_item_status$paid_price
   
-  # replace the delivery company "0" by "Bamilo Transportation System" for CashOnDelivery
-  ipc_no_missing_item_status <- data.table(ipc_no_missing_item_status)
-  setDT(ipc_no_missing_item_status)[payment_method=='CashOnDelivery' & shipment_provider_name == 0, shipment_provider_name := 'Bamilo Transportation System']
-  ipc_no_missing_item_status <- data.frame(ipc_no_missing_item_status)
 
 # VII_map_ledger --------------------------------------------------------------------- 
   

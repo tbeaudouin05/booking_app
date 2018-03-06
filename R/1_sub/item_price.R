@@ -119,8 +119,8 @@ item_price_f <- function(item_price_df, oms_rcc, loop_number) {
   setDT(ipt_no_missing_item_status)[payment_method=='CashOnDelivery' & shipment_provider_name == 0, shipment_provider_name := 'Bamilo Transportation System']
   ipt_no_missing_item_status <- data.frame(ipt_no_missing_item_status)
   
-  # add voucher to ipt_no_missing_item_status
-  ipt_no_missing_item_status$voucher <- ipt_no_missing_item_status$transaction_value - ipt_no_missing_item_status$paid_price
+  # add voucher to ipt_no_missing_item_status (+ because transaction value already negative in seller center, it's - for ipc)
+  ipt_no_missing_item_status$voucher <- ipt_no_missing_item_status$transaction_value + ipt_no_missing_item_status$paid_price
   
   
   # VIII_map_ledger ---------------------------------------------------------------------------------------------------------------

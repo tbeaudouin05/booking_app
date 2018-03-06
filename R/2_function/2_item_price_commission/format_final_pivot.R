@@ -29,7 +29,8 @@ format_final_pivot_f <- function(df_final_pivot,df_name, is_final) {
     field_list_no_total <- field_list[!(field_list$ledger_list %like% 'total'),]
     
     # calculate total 60002
-    df_pivot_formatted$'62002_total' <- df_pivot_formatted$`62002_ipc`- df_pivot_formatted$`62002_ipt`
+    df_pivot_formatted$'62002_total' <- df_pivot_formatted$`62002_ipc` + df_pivot_formatted$`62002_ipt`
+    
     
     # calculate total 31002
     # initialize at 0
@@ -54,7 +55,7 @@ format_final_pivot_f <- function(df_final_pivot,df_name, is_final) {
                                         ,df_pivot_formatted[,ledger_list[k]]) }
     
     # rename seller_name column                  
-    names(df_formatted_final) <- 'seller_name'
+    names(df_formatted_final)[1] <- 'seller_name'
     
     # rename all columns of df_formatted final given field list ORDER -----------------------------------
     for (l in c(1:n)) {
@@ -72,9 +73,9 @@ format_final_pivot_f <- function(df_final_pivot,df_name, is_final) {
     # is not final ---------------------------------------------------------------------------------------------
     } else {
       
-  # erase the _NA from the field names
+  # erase the _blank from the field names of df_pivot_formatted
   for (i in c(2:ncol(df_pivot_formatted))) { 
-    names(df_pivot_formatted)[i] <- gsub('_NA','',names(df_pivot_formatted)[i])}
+    names(df_pivot_formatted)[i] <- gsub('_blank','',names(df_pivot_formatted)[i])}
       
       # get field list in proper order
       field_list <- load_file_and_check_exist_f('2_input/item_price_commission_format/'
