@@ -39,7 +39,7 @@ run_query_wo_error_f <- function(formatted_query, is_sc_query = T){
     # run formatted_sc_query on MySQL database
     rs = dbSendQuery(conn1, formatted_query)
     # fetch rows returned by the query into R
-    output = fetch(rs, n=-1)
+    output = dbFetch(rs, n=-1)
   return(output)}
 
   writeLines('Running query and handling potential errors, please wait...')
