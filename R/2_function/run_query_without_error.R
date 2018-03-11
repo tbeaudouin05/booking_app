@@ -2,9 +2,10 @@
 run_query_wo_error_f <- function(formatted_query, is_sc_query = T){
   
   db_access <- yaml.load_file('SQL/db_access.yaml')
-
+  j <- 0
+  k <- 0
   conn <- NULL
-  while (is.null(conn)) {
+  while (is.null(conn) & j < 10) {
     
   if (is_sc_query) {
     
@@ -28,11 +29,14 @@ run_query_wo_error_f <- function(formatted_query, is_sc_query = T){
                                , host= db_access$oms_access[[4]][[1]])}
              ,error = function(cond){conn <- NULL})
   }
+    
+    j <- j + 1
   }
   
   i <- 1
+  j <- 0
   
-  while (i == 1) {
+  while (i == 1 & j < 10) {
     
   # define fetch_row_f function
   fetch_row_f <- function(rs,conn1) {
@@ -46,19 +50,19 @@ run_query_wo_error_f <- function(formatted_query, is_sc_query = T){
   query_output <- withCallingHandlers(fetch_row_f(rs,conn),
                                       warning = function(w){
                                         if(grepl("error while fetching rows", w$message)){
-                              
-                                          writeLines('Error while fetching rows - fetching rows again...')
+                                          k <- 0
+                                          writeLines(paste('Error while fetching rows',w$message))
                                         } else if (grepl("MySQL server has gone away", w$message)) {
-                                       
-                                          writeLines('MySQL server has gone away (on vacation?) - connecting again...')
+                                          k <- 0
+                                          writeLines(paste('MySQL server has gone away: ',w$message))
                                         } else {
                                           writeLines('All good on my side - moving on and retrieving data! :)')
-                                    
+                                          k <- 1
                                         }
                                       })
   
 # break the loop when all known errors have been handled 
-if(is.data.frame(query_output)){i <- 2}
+if(is.data.frame(query_output) & k <- 1){i <- 2} else {i <- 1}
   
   lapply( dbListConnections( dbDriver( drv = "MySQL")), dbDisconnect)
   
