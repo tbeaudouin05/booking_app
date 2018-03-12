@@ -12,3 +12,4 @@ install/RStudio-1.1.383.exe
 *.Rhistory
 *archive/
 *.exe
+log/
