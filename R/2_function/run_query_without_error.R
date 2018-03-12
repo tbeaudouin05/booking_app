@@ -6,7 +6,6 @@ run_query_wo_error_f <- function(formatted_query, is_sc_query = T){
   i <- 1
   conn <- NULL
   rs <- NULL
-  list <- list(i,data.frame())
   
   # fetch correct credential for SC or OMS
   if (is_sc_query) {
@@ -38,11 +37,12 @@ run_query_wo_error_f <- function(formatted_query, is_sc_query = T){
     
     
     # run formatted_query on MySQL database
-    # if warnings do NOT contain "lost connection" AND do NOT contain "row" THEN delete warnings
-    # i.e. show warnings if and ONLY if warnings contain "lost connection" or "row"
+    # if warnings do NOT contain "lost connection" AND do NOT contain "row" THEN transform to INFO
+    # i.e. make warnings actual warnings if and ONLY if warnings contain "lost connection" or "row", otherwise just treat them as INFO
     query_output <- withCallingHandlers(dbGetQuery(conn, formatted_query, n = -1)
                                         ,warning = function(w){if (!grepl('lost connection',w$message) & !grepl('row',w$message))
-                                          {invokeRestart('muffleWarning')}})
+                                          {writeLines(paste('INFO:',w$message))
+                                          invokeRestart('muffleWarning')}})
     
     # disconnect all database connections in case of success
     lapply(dbListConnections(dbDriver(drv = "MySQL")), dbDisconnect)
