@@ -47,8 +47,9 @@ ngs_format_and_output_f <- function(ledger_subledger_amount_df, map_name, proces
   # round up Amount
   ngs_detail_tab_o$Amount <- round(ngs_detail_tab$Amount, digits = 0)
   
-  # convert all NAs to ""
+  # convert all NAs and all 'blank' to ""
   ngs_detail_tab_o[is.na(ngs_detail_tab_o)] <- ''
+  ngs_detail_tab_o[ngs_detail_tab_o == 'blank'] <- ''
   
   # format all columns to text
   ngs_detail_tab_o <- data.frame(lapply(ngs_detail_tab_o,function(x) as.character(x)))

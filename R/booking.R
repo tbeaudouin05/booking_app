@@ -60,6 +60,7 @@ source('R/1_sub/run_oms_query.R')
 source('R/2_function/2_item_price_commission/merge_sc_oms.R')
 source('R/2_function/2_item_price_commission/user_interaction_new_input.R')
 source('R/2_function/2_item_price_commission/user_interaction_update_input.R')
+source('R/1_sub/ngs_v2.R')
 source('R/1_sub/ngs_other.R')
 source('R/2_function/2_item_price_commission/benef_code.R')
 source('R/2_function/2_item_price_commission/ledger_map_check.R')
@@ -67,6 +68,8 @@ source('R/2_function/2_item_price_commission/update_input_cond_format.R')
 source('R/2_function/2_item_price_commission/prepare_missing_field_df.R')
 source('R/2_function/2_item_price_commission/check_all_format.R')
 source('R/2_function/2_item_price_commission/format_final_pivot.R')
+source('R/1_sub/item_price_credit.R')
+source('R/1_sub/item_price.R')
 
 Sys.sleep(0.5)
 
@@ -141,7 +144,7 @@ oms_df_list <- NULL
 writeLines('LAUNCH ITEM PRICE CREDIT PROCESS')
 
 # get and run item_price_f function
-source('R/1_sub/item_price_credit.R')
+
 ipc_final <- item_price_credit_f(transaction_type_df_list$`Item Price Credit`
                                  ,oms_ship
                                  ,loop)
@@ -166,7 +169,7 @@ writeLines('LAUNCH ITEM PRICE PROCESS')
 if (is.data.frame(ipc_pivot_formatted)) {
 
 # get and run item_price_f function
-source('R/1_sub/item_price.R')
+
 ipt_final <- item_price_f(transaction_type_df_list$`Item Price`
                           ,oms_rcc
                           ,loop)
@@ -227,8 +230,8 @@ if (is.data.frame(ipt_pivot_formatted)) {
                                                     ,transaction_type_df_list$`Commission Credit`)
 
   # get and run ngs_f sub: output ngs template in order to upload to NGS
-  source('R/1_sub/ngs.R')
-  ngs_f(ipc_final
+  
+  ngs_v2_f(ipc_final
         ,ipt_final
         ,commission_revenue_and_vat
         ,loop)

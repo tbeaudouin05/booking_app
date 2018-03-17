@@ -1,7 +1,0 @@
-AND (YEAR(CASE WHEN isoi.refund_completed_date IS NOT NULL THEN isoi.refund_completed_date
-                                     WHEN isoi.refund_completed_date IS NULL AND canceled_at_t.canceled_at IS NOT NULL THEN canceled_at_t.canceled_at
-                                     ELSE closed_at_t.closed_at END) BETWEEN 2018 AND 2018 ) AND (MONTH(CASE WHEN isoi.refund_completed_date IS NOT NULL THEN isoi.refund_completed_date
-                                      WHEN isoi.refund_completed_date IS NULL AND canceled_at_t.canceled_at IS NOT NULL THEN canceled_at_t.canceled_at
-                                      ELSE closed_at_t.closed_at END) BETWEEN 1 AND 1 ) AND (DAY(CASE WHEN isoi.refund_completed_date IS NOT NULL THEN isoi.refund_completed_date
-                                    WHEN isoi.refund_completed_date IS NULL AND canceled_at_t.canceled_at IS NOT NULL THEN canceled_at_t.canceled_at
-                                    ELSE closed_at_t.closed_at END) BETWEEN 1 AND 1 )

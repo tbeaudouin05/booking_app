@@ -17,7 +17,7 @@ ledger_map_check_f <- function(oms_id_sales_order_item){
   ledger_check_query <- paste(formatted_ledger_check
                           ,'AND isoi.id_sales_order_item IN (',oms_filter,') ) tt')
   
-  # format the text of oms_ship_query and oms_rcc_query
+  # format the text of ledger_check_query
   #NB: THERE SHOULD BE NO COMMENT IN THE SQL or this will not work
   formatted_ledger_check_query <- gsub("\t","", paste(ledger_check_query, collapse=" "))
   
@@ -66,6 +66,15 @@ ledger_map_check_f <- function(oms_id_sales_order_item){
   missing_ledger_df <- merged[is.na(merged[,'flag']),]
   missing_ledger_df$flag <- NULL
   missing_ledger_df$key <- NULL
+  
+  # to check ledger format
+  ledger_map_validation <- load_file_and_check_exist_f('2_input'
+                                            ,'ledger_map.xlsm'
+                                            ,file_type = 'excel'
+                                            , sheet = 'validation'
+                                            , open = T)
+  transaction_type_format <- data.frame('transaction_type' = ledger_map_validation[1][!is.na(ledger_map_validation[1])])
+  item_status_format <- data.frame('item_status' = ledger_map_validation[2][!is.na(ledger_map_validation[2])])
 
   # if there are unmapped ledgers, prompt user to give information
   if (nrow(missing_ledger_df)>0) {

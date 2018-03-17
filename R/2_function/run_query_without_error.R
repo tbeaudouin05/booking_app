@@ -70,8 +70,8 @@ run_query_wo_error_f <- function(formatted_query, is_sc_query = T){
   
   # make sure it is not an infinite loop
   j <- j + 1
-  # wait 3 seconds before re-running the loop
-  Sys.sleep(10)
+  # wait x seconds before re-running the loop
+  Sys.sleep(30)
   
   }
   
