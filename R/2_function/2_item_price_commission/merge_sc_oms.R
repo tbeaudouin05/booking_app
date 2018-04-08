@@ -5,7 +5,7 @@ merge_sc_oms_f <- function (oms_df, sc_df) {
   # might be useless since anyway sc data is joined with oms data on sales order item id
   oms_df <- oms_df[is.na(as.numeric(oms_df$order_nr)) == F,]
   
-  # only fetch necessary columns of OMS update report | update <> ship because update --> item status
+  # only fetch necessary columns of OMS update report
   oms_df <- data.frame('oms_id_sales_order_item' = oms_df$id_sales_order_item
                            ,'payment_method' = oms_df$payment_method
                            ,'shipment_provider_name' = oms_df$shipment_provider_name

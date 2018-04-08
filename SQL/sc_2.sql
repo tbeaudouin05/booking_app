@@ -5,6 +5,7 @@ SELECT
   ,so.order_nr
   ,soi.src_created_at 'oms_soi_created_at'
   ,s.id_seller
+  ,s.short_code
   ,s.name AS  'seller_name'
   ,tasg.id_tre2_account_statement_group 'id_transaction_type'
   ,tasg.name AS  'transaction_type'
@@ -35,4 +36,4 @@ SELECT
   LEFT JOIN transaction_statement ts
   ON ts.id_transaction_statement = t.fk_transaction_statement
   
-WHERE t.created_at BETWEEN '2018-1-22 00:00:00' AND '2018-1-25 23:59:59'
+WHERE t.created_at BETWEEN '2018-1-22 00:00:00' AND '2018-1-22 23:59:59'

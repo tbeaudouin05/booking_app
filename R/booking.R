@@ -70,6 +70,7 @@ source('R/2_function/2_item_price_commission/check_all_format.R')
 source('R/2_function/2_item_price_commission/format_final_pivot.R')
 source('R/1_sub/item_price_credit.R')
 source('R/1_sub/item_price.R')
+source('R/2_function/2_item_price_commission/pivot_ledger_seller_voucher.R')
 
 Sys.sleep(0.5)
 
@@ -113,6 +114,12 @@ if (is.data.frame(sc_transaction_to_book)) {
   writeLines(paste('Number of rows / transactions to be processed in batch number',loop,':', rows))
 
 
+  # keep seller_name / short_code mapping
+  short_code_map <- data.table(sc_transaction_to_book)
+  short_code_map <- short_code_map[, .(sum(transaction_value)), by=list(seller_name, short_code)]
+  short_code_map <- data.frame(short_code_map)
+  short_code_map$V1 <- NULL
+
 ## run prepare_transform_sc_data_f
 sc_transaction_wo_retail <- prepare_transform_sc_data_f(sc_transaction_to_book)
 
@@ -144,22 +151,17 @@ oms_df_list <- NULL
 writeLines('LAUNCH ITEM PRICE CREDIT PROCESS')
 
 # get and run item_price_f function
-
 ipc_final <- item_price_credit_f(transaction_type_df_list$`Item Price Credit`
                                  ,oms_ship
                                  ,loop)
 
 
-# get and run pivot_ledger_seller_voucher_f function
-source('R/2_function/2_item_price_commission/pivot_ledger_seller_voucher.R')
+# run pivot_ledger_seller_voucher_f function
 ipc_final_pivot <- pivot_ledger_seller_voucher_f(ipc_final)
 
 
 # get and run format_final_pivot_f function
-
 ipc_pivot_formatted <- format_final_pivot_f(ipc_final_pivot,'ipc', is_final = F)
-
-
 
 
 # V_item_price_transaction_ipt -------------------------------------------------------------------
@@ -193,7 +195,6 @@ if (is.data.frame(ipt_pivot_formatted)) {
   commission_final_pivot <- commission_f(transaction_type_df_list$Commission
                                          ,transaction_type_df_list$`Commission Credit`)
   
-  # good up to here except small discrepancies pby because ledger mismatch
   # get and run map_item_price_to_commission_f function
   source('R/1_sub/map_item_price_to_commission.R')
   ipc_ipt_commission_final_pivot <- map_item_price_to_commission_f(ipc_pivot_formatted
@@ -210,6 +211,9 @@ if (is.data.frame(ipt_pivot_formatted)) {
   ipc_ipt_c_w_benef_code <- benef_code_f(ipc_ipt_commission_pivot_formatted
                                          ,'ipc_ipt_c_formatted'
                                          ,loop_number = loop)
+  
+  # add seller_name
+  ipc_ipt_c_w_benef_code <- merge(short_code_map,ipc_ipt_c_w_benef_code, by = 'short_code', all.y = TRUE)
   
 
   # output ipc_ipt_c_w_benef_code.csv into ipc_ipt_c_pivot_check.csv for user to check relevance
@@ -230,7 +234,6 @@ if (is.data.frame(ipt_pivot_formatted)) {
                                                     ,transaction_type_df_list$`Commission Credit`)
 
   # get and run ngs_f sub: output ngs template in order to upload to NGS
-  
   ngs_v2_f(ipc_final
         ,ipt_final
         ,commission_revenue_and_vat

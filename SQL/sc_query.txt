@@ -4,6 +4,7 @@ SELECT
   ,so.order_nr
   ,soi.src_created_at 'oms_soi_created_at'
   ,s.id_seller
+  ,s.short_code
   ,s.name AS  'seller_name'
   ,tasg.id_tre2_account_statement_group 'id_transaction_type'
   ,tasg.name AS  'transaction_type'
@@ -33,3 +34,4 @@ SELECT
 
   LEFT JOIN transaction_statement ts
   ON ts.id_transaction_statement = t.fk_transaction_statement
+

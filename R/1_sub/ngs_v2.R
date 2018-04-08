@@ -36,10 +36,10 @@ ngs_v2_f <- function(ipc_final,ipt_final, commission_revenue_and_vat,loop_number
   
   map_benef_code_f <- function(df_to_map){
   
-    # map with benef_code, rename benef_code to subledger and erase seller_name
+    # map with benef_code, rename benef_code to subledger and erase short_code
     df_formatted <- benef_code_f(df_to_map,'random',0)
     names(df_formatted)[1] <- 'subledger'
-    df_formatted$seller_name <- NULL
+    df_formatted$short_code <- NULL
     
     return(df_formatted)
     
@@ -94,30 +94,30 @@ ngs_v2_f <- function(ipc_final,ipt_final, commission_revenue_and_vat,loop_number
   # along with the total payout to sellers (ledger 31002), it is the only ledger booked for every seller
   c_final_62001 <- filter_group_f(df_to_format = commission_revenue_and_vat
                                   ,filter_list = '62001'
-                                  ,group_list = c('ledger','seller_name')
+                                  ,group_list = c('ledger','short_code')
                                   ,sum_field = 'transaction_value')
   c_final_62001 <- map_benef_code_f(c_final_62001)
   
   # calculate 31002 total ---------------------------------------------------------------------------------------
   
   # since voucher, ipt, ipc and commission all have correct sign
-  # we can just keep seller_name and transaction_value columns for ipc, ipt and commission
-  # seller_name and voucher columns for voucher, 
+  # we can just keep short_code and transaction_value columns for ipc, ipt and commission
+  # short_code and voucher columns for voucher, 
   # rename all amounts (voucher and transaction value) to amount
   # append ipc, ipt, commission and voucher together
   # then add the ledger 31002 and group by sellers!  and finally map benef_code
   
   # keep appropriate columns for ipc, ipt, commission and voucher - and rename all amounts to 'amount'
-  ipc_s <- data.frame('seller_name' = ipc_final$seller_name
+  ipc_s <- data.frame('short_code' = ipc_final$short_code
                       ,'ledger' = ipc_final$ledger
                       ,'amount' = ipc_final$paid_price)
-  ipt_s <- data.frame('seller_name' = ipt_final$seller_name
+  ipt_s <- data.frame('short_code' = ipt_final$short_code
                       ,'ledger' = ipt_final$ledger
                       ,'amount' = ipt_final$paid_price)
-  c_revenue_and_vat_s <- data.frame('seller_name' = commission_revenue_and_vat$seller_name
+  c_revenue_and_vat_s <- data.frame('short_code' = commission_revenue_and_vat$short_code
                                     ,'ledger' = commission_revenue_and_vat$ledger
                                     ,'amount' = commission_revenue_and_vat$transaction_value)
-  voucher_s <- data.frame('seller_name' = ipc_ipt_a$seller_name
+  voucher_s <- data.frame('short_code' = ipc_ipt_a$short_code
                           ,'ledger' = ipc_ipt_a$ledger
                           ,'amount' = ipc_ipt_a$voucher)
   
@@ -138,7 +138,7 @@ ngs_v2_f <- function(ipc_final,ipt_final, commission_revenue_and_vat,loop_number
   # hence change_amount_sign = T
   final_31002 <- filter_group_f(df_to_format = final_31002
                                   ,filter_list = '31002'
-                                  ,group_list = c('ledger','seller_name')
+                                  ,group_list = c('ledger','short_code')
                                   ,sum_field = 'amount'
                                   ,change_amount_sign = T)
   final_31002 <- map_benef_code_f(final_31002)

@@ -45,8 +45,8 @@ format_final_pivot_f <- function(df_final_pivot,df_name, is_final) {
     # define ledger_list to call the name of each ledger in next loop
     ledger_list <- field_list$ledger_list
     
-    # initialize data frame with seller_name column
-    df_formatted_final <- data.frame(df_pivot_formatted$seller_name)
+    # initialize data frame with short_code column
+    df_formatted_final <- data.frame(df_pivot_formatted$short_code)
     
     # add all columns in data frame given field list ORDER ------------------------------
     for (k in c(1:n)) { 
@@ -54,8 +54,8 @@ format_final_pivot_f <- function(df_final_pivot,df_name, is_final) {
       df_formatted_final <-  data.frame(df_formatted_final
                                         ,df_pivot_formatted[,ledger_list[k]]) }
     
-    # rename seller_name column                  
-    names(df_formatted_final)[1] <- 'seller_name'
+    # rename short_code column                  
+    names(df_formatted_final)[1] <- 'short_code'
     
     # rename all columns of df_formatted final given field list ORDER -----------------------------------
     for (l in c(1:n)) {
@@ -115,8 +115,8 @@ format_final_pivot_f <- function(df_final_pivot,df_name, is_final) {
       # define ledger_list to call the name of each ledger in next loop
       ledger_list <- field_list$ledger_list
       
-      # initialize data frame with seller_name column
-      df_formatted_final <- data.frame(df_pivot_formatted$seller_name)
+      # initialize data frame with short_code column
+      df_formatted_final <- data.frame(df_pivot_formatted$short_code)
       
       # add all columns in data frame given field list ORDER ------------------------------
       for (k in c(1:n)) { 
@@ -125,8 +125,8 @@ format_final_pivot_f <- function(df_final_pivot,df_name, is_final) {
                                           ,df_pivot_formatted[,ledger_list[k]]) }
       
       
-      # rename seller_name column                  
-      names(df_formatted_final) <- 'seller_name'
+      # rename short_code column                  
+      names(df_formatted_final) <- 'short_code'
       
       # rename all columns of df_formatted final given field list ORDER -------------------------------
       # concatenate the name of the data frame (ipt or ipc) to each ledger in order to differentiate them between ipc vs. ipt

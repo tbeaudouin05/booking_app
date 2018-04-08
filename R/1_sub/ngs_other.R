@@ -13,9 +13,9 @@ ngs_other_f <- function(transaction_type_df
   if (nrow(transaction_type_df) > 0){
   if (is_vat_process) {
   
-  # group transaction_type_df by seller_name, sum(transaction_value)
+  # group transaction_type_df by short_code, sum(transaction_value)
   transaction_type_df <- data.table(transaction_type_df) 
-  transaction_type_df <- transaction_type_df[, .(sum(transaction_value)), by=list(seller_name)]
+  transaction_type_df <- transaction_type_df[, .(sum(transaction_value)), by=list(short_code)]
   transaction_type_df <- data.frame(transaction_type_df)
   names(transaction_type_df)[2] <- 'transaction_value'
   
@@ -77,9 +77,9 @@ ngs_other_f <- function(transaction_type_df
   
   } else {
     
-    # group transaction_type_df by seller_name, sum(Amount)
+    # group transaction_type_df by short_code, sum(Amount)
     transaction_type_df <- data.table(transaction_type_df) 
-    transaction_type_df <- transaction_type_df[, .(sum(transaction_value)), by=list(seller_name)]
+    transaction_type_df <- transaction_type_df[, .(sum(transaction_value)), by=list(short_code)]
     transaction_type_df <- data.frame(transaction_type_df)
     names(transaction_type_df)[2] <- 'transaction_value'
     
