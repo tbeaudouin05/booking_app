@@ -18,6 +18,10 @@ ECHO -
 ECHO You can also check the log folder to check the program status
 ECHO -
 ECHO Please wait... [up to 1 hour]
+ECHO -
+ECHO This program is interactive:
+ECHO -
+ECHO YOU NEED TO ANSWER USER PROMPTS!
 
 CALL "C:\Program Files\R\R-3.4.2\bin\x64\RScript.exe" "R\working_directory.R"
 

@@ -35,7 +35,7 @@ load_router_f <- function (sc_transaction, seller_id_already_booked){
   
   # else if thenumber of rows which have not been booked yet are less than 500,000
   # then do the booking for all these remaining rows
-  } else if (rows_not_booked_yet <= 1000000) {
+  } else if (rows_not_booked_yet <= 1500000) {
   
   return(sc_transaction_not_booked_yet)
   
