@@ -17,10 +17,10 @@ item_price_credit_f <- function (item_price_credit_df, oms_ship, loop_number) {
 list_missing_payment_method <- prepare_missing_field_df_f(ipc_w_oms,'payment_method')
 
 # run user_interaction_new_input_f
-ipc_no_missing_payment_method <- user_interaction_new_input_f(list_missing_payment_method[[1]]
-                                                              ,'payment_method'
-                                                              ,'ipc_missing_payment_method'
-                                                              ,list_missing_payment_method[[2]]
+ipc_no_missing_payment_method <- user_interaction_new_input_f(missing_field_df = list_missing_payment_method[[1]]
+                                                              ,missing_field_name  = 'payment_method'
+                                                              ,missing_field_df_name = 'ipc_missing_payment_method'
+                                                              ,no_missing_field_df = list_missing_payment_method[[2]]
                                                               ,loop_number
                                                               ,check_input = T)
 

@@ -29,15 +29,19 @@ benef_code_f <- function(df_to_map, df_to_map_name,loop_number){
 
     # to check benef_code formatting = length 10 + integer (not decimal)
     # length(benef_code) = 10
-    is_not_10_length_benef_code <- data.frame(benef_code_map, 'benef_code_length' = nchar(benef_code_map$benef_code))
+    is_not_10_length_benef_code <- data.frame(benef_code_map, 'benef_code_length' = nchar(as.character(benef_code_map$benef_code)))
     is_not_10_length_benef_code <- is_not_10_length_benef_code[is_not_10_length_benef_code[,'benef_code_length'] != 10,]
     # benef_code = integer
     is_not_int_benef_code <- data.frame(benef_code_map, 'diff_round_benef_code' = round(as.numeric(benef_code_map$benef_code))- as.numeric(benef_code_map$benef_code))
     is_not_int_benef_code <- is_not_int_benef_code[is_not_int_benef_code[,'diff_round_benef_code']!= 0,] 
     
-    # if there are blank short_code then re_run the loop and prompt user to rectify
     
-    # if there are blank benef_code then re_run the loop and prompt user to rectify
+    # to check short_code formatting = length 10
+    is_not_7_length_short_code <- data.frame(benef_code_map, 'short_code_length' = nchar(as.character(benef_code_map$short_code)))
+    is_not_7_length_short_code <- is_not_7_length_short_code[is_not_7_length_short_code[,'short_code_length'] != 7,]
+    
+    # if there are blank short_code then re_run the loop and prompt user to rectify
+
     if (nrow(check_blank_short_code_map) >0 ) {
       
       df_with_benef_code <- 're_run'
@@ -51,6 +55,7 @@ benef_code_f <- function(df_to_map, df_to_map_name,loop_number){
       # restart checking if there was any error in input
       i <- 0
       
+    # if there are blank benef_code then re_run the loop and prompt user to rectify
     } else if (nrow(check_blank_benef_code_map) >0 ){
       
       df_with_benef_code <- 're_run'
@@ -81,14 +86,15 @@ benef_code_f <- function(df_to_map, df_to_map_name,loop_number){
       # restart checking if there was any error in input
       i <- 0
       
-    } else if (nrow(is_not_10_length_benef_code) > 0 | nrow(is_not_int_benef_code) > 0) {
+    } else if (nrow(is_not_10_length_benef_code) > 0 | nrow(is_not_int_benef_code) > 0 | nrow(is_not_7_length_short_code) > 0) {
       
       df_with_benef_code <- 're_run'
       
       shell.exec(paste0(getwd(),'/2_input/benef_code_map.xlsm'))
       
       if (nrow(is_not_10_length_benef_code) > 0) {info_m <- 'Some benef_code do not have 10 digits'
-        } else {info_m <- 'Some benef_code are not integers'}
+      } else if (nrow(is_not_int_benef_code) > 0) {info_m <- 'Some benef_code are not integers'
+      } else {info_m <- 'Some short_code do not have 7 characters'}
       
       tkmessageBox(title = paste('Wrong format benef_code!') 
                    , message = paste(info_m,'- rectify benef_code format THEN click OK')

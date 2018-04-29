@@ -13,8 +13,10 @@ prepare_transform_sc_data_f <- function(sc_transaction) {
   
   # to flag retail suppliers
   retail_seller$flag <- 1
-  # enable merge on Seller.Name with sc_transaction
-  names(retail_seller)[1] <- 'seller_name'
+  # enable merge on short_code with sc_transaction
+  names(retail_seller)[2] <- 'short_code'
+  # erase seller_name column
+  retail_seller$seller_name <- NULL
   
   
   
@@ -23,7 +25,7 @@ prepare_transform_sc_data_f <- function(sc_transaction) {
   # filter for retail
   sc_transaction_to_filter_retail <- sc_transaction
   # flag retail sellers
-  sc_transaction_to_filter_retail <- merge(sc_transaction_to_filter_retail,retail_seller, by = 'seller_name', all.x = TRUE)
+  sc_transaction_to_filter_retail <- merge(sc_transaction_to_filter_retail,retail_seller, by = 'short_code', all.x = TRUE)
   sc_transaction_to_filter_retail$flag[is.na(sc_transaction_to_filter_retail$flag)] <- 0
   
   # create sc_transaction without retail

@@ -1,0 +1,1 @@
+- added short_code to retail_seller.xlsm
