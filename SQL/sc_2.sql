@@ -1,4 +1,3 @@
-
 SELECT 
   t.id_transaction
   ,soi.src_id 'oms_id_sales_order_item'
@@ -36,4 +35,4 @@ SELECT
   LEFT JOIN transaction_statement ts
   ON ts.id_transaction_statement = t.fk_transaction_statement
   
-WHERE t.created_at BETWEEN '2018-1-22 00:00:00' AND '2018-1-22 23:59:59'
+WHERE t.created_at BETWEEN '2018-7-16 00:00:00' AND '2018-7-22 23:59:59'

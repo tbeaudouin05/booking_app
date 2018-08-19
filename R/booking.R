@@ -261,7 +261,7 @@ if (is.data.frame(ipt_pivot_formatted)) {
   # run ngs_other_f sub
   ngs_other_f(transaction_type_df_list$` Cancellation Penalty - (Within 24 Hrs)`
               ,revenue_ledger = '62009'
-              ,negative_revenue_ledger = '62009'
+              ,negative_revenue_ledger = '62010'
               ,map_name = 'cancel_wi_24'
               ,process_name = 'cancel_wi_24'
               ,loop_number = loop)
@@ -272,7 +272,7 @@ if (is.data.frame(ipt_pivot_formatted)) {
   # run ngs_other_f sub
   ngs_other_f(transaction_type_df_list$`Cancellation Penalty  (After 24 Hrs)`
               ,revenue_ledger = '62009'
-              ,negative_revenue_ledger = '62009'
+              ,negative_revenue_ledger = '62010'
               ,map_name = 'cancel_after_24'
               ,process_name = 'cancel_after_24'
               ,loop_number = loop)
@@ -283,7 +283,7 @@ if (is.data.frame(ipt_pivot_formatted)) {
   # run ngs_other_f sub
   ngs_other_f(transaction_type_df_list$`Storage Fee`
               ,revenue_ledger = '62005'
-              ,negative_revenue_ledger = '62005'
+              ,negative_revenue_ledger = '62011'
               ,map_name = 'storage_fee'
               ,process_name = 'storage_fee'
               ,loop_number = loop)
@@ -295,7 +295,7 @@ if (is.data.frame(ipt_pivot_formatted)) {
   # run ngs_other_f sub
   ngs_other_f(transaction_type_df_list$`Handling Fee`
               ,revenue_ledger = '62005'
-              ,negative_revenue_ledger = '62005'
+              ,negative_revenue_ledger = '62011'
               ,map_name = 'handling_fee'
               ,process_name = 'handling_fee'
               ,loop_number = loop)
@@ -310,7 +310,7 @@ if (is.data.frame(ipt_pivot_formatted)) {
   
   # run ngs_other_f sub
   ngs_other_f(shipping_fee_df
-              ,revenue_ledger = '62005'
+              ,revenue_ledger = '62004'
               ,negative_revenue_ledger = '62008'
               ,map_name = 'shipping_fee'
               ,process_name = 'shipping_fee'
